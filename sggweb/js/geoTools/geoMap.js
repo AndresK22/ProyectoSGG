@@ -20,11 +20,28 @@ GeoMap.prototype.CrearMapa = function(target,layers,center,zoom,minZoom,maxZoom)
             maxZoom:_maxZoom,
             zoom:_zoom
         }),
-        interactions: ol.interaction.defaults({ altShiftDragRotate:false, pinchRotate:false,  })
+        interactions: ol.interaction.defaults({ altShiftDragRotate:true, pinchRotate:true})
 
     });
 
+    var controlMousePosition = new ol.control.MousePosition({
+        coordinateFormat: ol.coordinate.createStringXY(4),
+        className: 'custom-mouse-position',
+        target: document.getElementById('mouse-position'),
+    });
+    this.map.addControl(controlMousePosition);
+
 };
+
+GeoMap.prototype.CrearControlBarra = function(){
+    var mainBar = new ol.control.Bar();
+    this.map.addControl(mainBar);
+
+    mainBar.addControl(new ol.control.FullScreen());
+    mainBar.addControl(new ol.control.Rotate());
+    mainBar.addControl(new ol.control.ZoomToExtent({extent:[-9951816,1627131 , -9909355,1596823]}));
+    mainBar.setPosition('top-left');
+}
 
 
 GeoMap.prototype.CrearLayerSwitcher = function(){
@@ -38,61 +55,59 @@ GeoMap.prototype.CrearLayerSwitcher = function(){
 }
 
 
-GeoMap.prototype.CrearPopUpMunic = function(){
+GeoMap.prototype.CrearPopUp = function(){
     // Select control
-    var selectMunic = new ol.interaction.Select({
+    var select = new ol.interaction.Select({
         hitTolerance: 5,
         multi: true,
         condition: ol.events.condition.singleClick
     });
-    this.map.addInteraction(selectMunic);
+    this.map.addInteraction(select);
 
 
-    var popupMunicipios = new ol.Overlay.PopupFeature({
+    var popup = new ol.Overlay.PopupFeature({
         popupClass: 'default anim',
-        select: selectMunic,
+        select: select,
         canFix: true,
         template: {
             title: function(f) {
-                return f.get('nombre') + '(' + f.get('id') + ')';
-            },
-            attributes: {'nombre': { title: 'Nombre' },
-            'departamen': { title: 'Departamento' },
-            'area_km': { title: 'Area' },
-            'perimetro': { title: 'Perimetro' }
+                var restaurant = f.get('Restaurant');
+                var hotel = f.get('hotel');
+                var cant_rest = f.get('cant_rest');
+                var cant_mirad = f.get('cant_mirad');
+                var cant_hotel = f.get('cant_hotel');
 
+                if(cant_rest){
+                    return 'Concentracion de restaurantes (' + f.get('id') + ')';
+                }
+                else if(cant_mirad){
+                    return 'Concentracion de miradores (' + f.get('id') + ')';
+                }
+                else if(cant_hotel){
+                    return 'Concentracion de hoteles (' + f.get('id') + ')';
+                }
+                else if(restaurant){
+                    return f.get('Restaurant') + '(' + f.get('id') + ')';
+                }
+                else if(hotel){
+                    return 'Ruta a ' + f.get('hotel') + '(' + f.get('id') + ')';
+                }
+                else {
+                    return f.get('nombre') + '(' + f.get('id') + ')';
+                }
+            },
+            attributes: {
+                'departamen': { title: 'Departamento' },
+                'municipio': { title: 'Municipio' },
+                'Municipio': { title: 'Municipio' },
+                'area_km': { title: 'Area (km)' },
+                'perimetro': { title: 'Perimetro' },
+                'cant_rest': { title: 'Cantidad de restaurantes' },
+                'cant_mirad': { title: 'Cantidad de miradores' },
+                'cant_hotel': { title: 'Cantidad de hoteles' },
             }
         }
     });
-    this.map.addOverlay (popupMunicipios);
-
-}
-
-
-
-GeoMap.prototype.CrearPopUpConcentRest = function(){
-    // Select control
-    var selectConcentRest = new ol.interaction.Select({
-        hitTolerance: 5,
-        multi: true,
-        condition: ol.events.condition.singleClick
-    });
-    this.map.addInteraction(selectConcentRest);
-
-    var popupConcentracionRest = new ol.Overlay.PopupFeature({
-        popupClass: 'default anim',
-        select: selectConcentRest,
-        canFix: true,        
-        template: {
-            title: function(f) {
-                return f.get('municipio') + '(' + f.get('id') + ')';
-            },
-            attributes: {
-                'cant_rest': { title: 'Cantidad de restaurantes' }
-            },
-        }
-    });
-
-    this.map.addOverlay (popupConcentracionRest);
+    this.map.addOverlay (popup);
 
 }

@@ -141,7 +141,6 @@ GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
     var lista = [];
 
     //Municipios_ruta
-    
     var municipiosRuta = new ol.layer.Vector({
         title: 'Municipios de la ruta',
         source: new ol.source.Vector({
@@ -291,19 +290,19 @@ GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
             switch(val) {
                 case 'Citalá':
                     return [ new ol.style.Style({
-                        stroke: new ol.style.Stroke({color: 'rgba(227,26,28,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 0})
+                        stroke: new ol.style.Stroke({color: 'rgba(231,24,196,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 2})
                     })];
                     break;
 
                 case 'La Palma':
                     return [ new ol.style.Style({
-                        stroke: new ol.style.Stroke({color: 'rgba(0,0,0,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 0})
+                        stroke: new ol.style.Stroke({color: 'rgba(0,0,0,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 2})
                     })];
                     break;
 
                 case 'San Ignacio':
                     return [ new ol.style.Style({
-                        stroke: new ol.style.Stroke({color: 'rgba(51,160,44,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 0})
+                        stroke: new ol.style.Stroke({color: 'rgba(51,160,44,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 2})
                     })];
                     break;
             }

@@ -3,7 +3,7 @@ function CargarMapa(){
     var layers = new GeoLayers();
    
     map.CrearMapa('map',[layers.ObtenerLayersBase(), layers.ObtenerLayersGeoJSON()],null,null,null,null);
+    map.CrearControlBarra();
     map.CrearLayerSwitcher();
-    map.CrearPopUpMunic();
-    map.CrearPopUpConcentRest();
+    map.CrearPopUp();
 }
