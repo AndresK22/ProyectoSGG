@@ -24,13 +24,6 @@ GeoMap.prototype.CrearMapa = function(target,layers,center,zoom,minZoom,maxZoom)
 
     });
 
-    var controlMousePosition = new ol.control.MousePosition({
-        coordinateFormat: ol.coordinate.createStringXY(4),
-        className: 'custom-mouse-position',
-        target: document.getElementById('mouse-position'),
-    });
-    this.map.addControl(controlMousePosition);
-
 };
 
 GeoMap.prototype.CrearControlBarra = function(){
@@ -76,24 +69,28 @@ GeoMap.prototype.CrearPopUp = function(){
                 var cant_rest = f.get('cant_rest');
                 var cant_mirad = f.get('cant_mirad');
                 var cant_hotel = f.get('cant_hotel');
+                var nombre = f.get('Nombre');
 
                 if(cant_rest){
-                    return 'Concentracion de restaurantes (' + f.get('id') + ')';
+                    return 'Concentracion de restaurantes';
                 }
                 else if(cant_mirad){
-                    return 'Concentracion de miradores (' + f.get('id') + ')';
+                    return 'Concentracion de miradores';
                 }
                 else if(cant_hotel){
-                    return 'Concentracion de hoteles (' + f.get('id') + ')';
+                    return 'Concentracion de hoteles';
                 }
                 else if(restaurant){
-                    return f.get('Restaurant') + '(' + f.get('id') + ')';
+                    return f.get('Restaurant');
                 }
                 else if(hotel){
-                    return 'Ruta a ' + f.get('hotel') + '(' + f.get('id') + ')';
+                    return 'Ruta a ' + f.get('hotel');
+                }
+                else if(nombre){
+                    return f.get('Nombre');
                 }
                 else {
-                    return f.get('nombre') + '(' + f.get('id') + ')';
+                    return f.get('nombre');
                 }
             },
             attributes: {

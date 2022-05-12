@@ -72,7 +72,7 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
     listaLayers.push(lyrGoogleMapS);
 
     return new ol.layer.Group({
-        title:'Capas Base',
+        title:'Mapas base',
         layers:listaLayers
     });
 };
@@ -97,36 +97,6 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
         })
     });
     listaLayers.push(polig);
-    
-    var lineas = new ol.layer.Tile({
-        title:'Lineas',
-        visible: true,
-        source: new ol.source.TileWMS({
-            url: 'http://localhost:8080/geoserver/wms?',
-            params: {
-                VERSION: '1.1.1',
-                FORMAT: 'image/png',
-                TRANSPARENT: true,
-                LAYERS: 'sgg:ruta_hoteles'
-            }
-        })
-    });
-    listaLayers.push(lineas);
-    
-    var puntos = new ol.layer.Tile({
-        title:'Puntos',
-        visible: true,
-        source: new ol.source.TileWMS({
-            url: 'http://localhost:8080/geoserver/wms?',
-            params: {
-                VERSION: '1.1.1',
-                FORMAT: 'image/png',
-                TRANSPARENT: true,
-                LAYERS: 'sgg:hoteles'
-            }
-        }),
-    });
-    listaLayers.push(puntos);
 
     return new ol.layer.Group({
         title:'Capas sobrepuestas',
@@ -136,8 +106,11 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
 }*/
 
 
+
 //Capas geojson para obtener datos
-GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
+
+//Capas de poligonos
+GeoLayers.prototype.ObtenerLayersGeoJSONPoligonos = function(){
     var lista = [];
 
     //Municipios_ruta
@@ -187,7 +160,6 @@ GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
 
     })
     lista.push(municipiosRuta);
-
 
 
     //Concentracion restaurantes
@@ -266,6 +238,118 @@ GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
     lista.push(concentracionHoteles);
 
 
+    //Zonas de acampar
+    var zonasCammping = new ol.layer.Vector({
+        title: 'Zonas de camping',
+        source: new ol.source.Vector({
+            url: function(extent){
+                return 'http://137.184.35.12:8080/geoserver/sgg/ows?'+
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Azonas_acampar&'+
+                'outputFormat=application%2Fjson'
+                
+                
+                /*'http://localhost:8080/geoserver/sgg/ows?' +
+                'service=WFS&' +
+                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'outputFormat=application%2Fjson'*/
+            },
+            format: new ol.format.GeoJSON()
+        }),
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({color: 'rgba(35,35,35,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 0}),
+            fill: new ol.style.Fill({color: 'rgba(190,178,151,1.0)'})
+        })
+    })
+    lista.push(zonasCammping);
+
+
+    //Zonas de caminata
+    var zonasCaminata = new ol.layer.Vector({
+        title: 'Zonas de caminata',
+        source: new ol.source.Vector({
+            url: function(extent){
+                return 'http://137.184.35.12:8080/geoserver/sgg/ows?'+
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Azonas_caminata&'+
+                'outputFormat=application%2Fjson'
+                
+                
+                /*'http://localhost:8080/geoserver/sgg/ows?' +
+                'service=WFS&' +
+                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'outputFormat=application%2Fjson'*/
+            },
+            format: new ol.format.GeoJSON()
+        }),
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({color: 'rgba(35,35,35,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 0}),
+            fill: new ol.style.Fill({color: 'rgba(196,60,57,1.0)'})
+        })
+    })
+    lista.push(zonasCaminata);
+
+
+    //Zonas religiosas
+    var zonasReligiosas = new ol.layer.Vector({
+        title: 'Zonas religiosas',
+        source: new ol.source.Vector({
+            url: function(extent){
+                return 'http://137.184.35.12:8080/geoserver/sgg/ows?'+
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Azonas_religiosas&'+
+                'outputFormat=application%2Fjson'
+                
+                
+                /*'http://localhost:8080/geoserver/sgg/ows?' +
+                'service=WFS&' +
+                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'outputFormat=application%2Fjson'*/
+            },
+            format: new ol.format.GeoJSON()
+        }),
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({color: 'rgba(35,35,35,1.0)', lineDash: null, lineCap: 'butt', lineJoin: 'miter', width: 0}),
+            fill: new ol.style.Fill({color: 'rgba(229,182,54,1.0)'})
+        })
+    })
+    lista.push(zonasReligiosas);
+
+    return new ol.layer.Group({
+        title:'Poligonos',
+        visible: true,
+        layers: lista
+    })
+}
+
+
+//Capas de lineas
+GeoLayers.prototype.ObtenerLayersGeoJSONLineas = function(){
+    var lista = [];
+
+    //Ruta fresca
+    var rutaFresca = new ol.layer.Vector({
+        title: 'Ruta fresca',
+        source: new ol.source.Vector({
+            url: function(extent){
+                return 'http://137.184.35.12:8080/geoserver/sgg/ows?'+
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3ArutaFresca&'+
+                'outputFormat=application%2Fjson'
+                
+                
+                /*'http://localhost:8080/geoserver/sgg/ows?' +
+                'service=WFS&' +
+                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'outputFormat=application%2Fjson'*/
+            },
+            format: new ol.format.GeoJSON()
+        }),
+        
+        style: new ol.style.Style({
+            stroke: new ol.style.Stroke({color: 'rgba(227,26,28,1.0)', lineDash: null, lineCap: 'square', lineJoin: 'bevel', width: 2})
+        })
+
+    })
+    lista.push(rutaFresca);
+
+
     //Ruta hoteles
     var rutaHoteles = new ol.layer.Vector({
         title: 'Rutas a hoteles',
@@ -311,6 +395,18 @@ GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
     })
     lista.push(rutaHoteles);
 
+
+    return new ol.layer.Group({
+        title:'Lineas',
+        visible: true,
+        layers: lista
+    })
+}
+
+
+//Capas de puntos
+GeoLayers.prototype.ObtenerLayersGeoJSONPuntos = function(){
+    var lista = [];
 
     //Hoteles
     var hoteles = new ol.layer.Vector({
@@ -392,7 +488,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
 
     //Miradores
     var miradores = new ol.layer.Vector({
-        title: 'Restaurantes',
+        title: 'Miradores',
         source: new ol.source.Vector({
             url: function(extent){
                 return 'http://137.184.35.12:8080/geoserver/sgg/ows?'+
@@ -417,7 +513,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSON= function(){
 
 
     return new ol.layer.Group({
-        title:'Ruta fresca',
+        title:'Puntos',
         visible: true,
         layers: lista
     })
