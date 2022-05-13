@@ -10,7 +10,7 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
     var departamentos = new ol.layer.Tile({
         title:'Departamentos',
         visible: false,
-        baseLayer:true,
+        baseLayer: true,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
             params: {
@@ -20,6 +20,17 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
                 LAYERS: 'sgg:LIM_DEPARTAMENTAL'
             }
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:LIM_DEPARTAMENTAL'
+            }
+        })*/
+        
     });
     listaLayers.push(departamentos);
 
@@ -27,7 +38,7 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
     var municipios = new ol.layer.Tile({
         title:'Municipios',
         visible: false,
-        baseLayer:true,
+        baseLayer: true,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
             params: {
@@ -38,6 +49,17 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
             }
 
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:LIM_MUNICIPAL'
+            }
+        })*/
+
     });
     listaLayers.push(municipios);
 
@@ -45,13 +67,13 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
     var lyrOSM = new ol.layer.Tile({
         title:'Open Street Map',
         visible: true,
-        baseLayer:true,
+        baseLayer: true,
         source: new ol.source.OSM()
     });
     listaLayers.push(lyrOSM);
 
     //Capa Google Map
-    var lyrGoogleMap = new ol.layer.Tile({
+    /*var lyrGoogleMap = new ol.layer.Tile({
         title:'Google Maps',
         visible: false,
         baseLayer:true,
@@ -59,13 +81,13 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
             url: "https://mt1.google.com/vt/lyrs=r&x={x}&y={y}&z={z}"
         })
     });
-    listaLayers.push(lyrGoogleMap);
+    listaLayers.push(lyrGoogleMap);*/
 
     //Capa Google Satelite
     var lyrGoogleMapS = new ol.layer.Tile({
         title:'Google Satelite',
         visible: false,
-        baseLayer:true,
+        baseLayer: true,
         source: new ol.source.XYZ({
             url: "http://www.google.cn/maps/vt?lyrs=s@189&gl=cn&x={x}&y={y}&z={z}"
         })
@@ -79,43 +101,14 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
 };
 
 
-//Capas vectoriales
-/*GeoLayers.prototype.ObtenerLayersSobrepuestos = function(){
-    var listaLayers = [];
-    
-    //Capas vectoriales
-	var polig = new ol.layer.Tile({
-        title:'Poligonos',
-        visible: true,
-        source: new ol.source.TileWMS({
-            url: 'http://localhost:8080/geoserver/wms?',
-            params: {
-                VERSION: '1.1.1',
-                FORMAT: 'image/png',
-                TRANSPARENT: true,
-                LAYERS: 'sgg:municipios_ruta'
-            }
-        })
-    });
-    listaLayers.push(polig);
-
-    return new ol.layer.Group({
-        title:'Capas sobrepuestas',
-        visible: false,
-        layers: listaLayers
-    });
-}*/
-
-
-
 //Capas geojson para obtener datos
 //Capas de zonas turisticas
-GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
+GeoLayers.prototype.ObtenerLayersMunicRuta = function(){
     var lista = [];
 
     //Municipios_ruta
     var municipiosRuta = new ol.layer.Vector({
-        title: 'Municipios de la ruta',
+        title: 'Tipo poligono',
         source: new ol.source.Vector({
             url: function(extent){
                 return 'http://137.184.35.12:8080/geoserver/sgg/ows?'+
@@ -123,8 +116,7 @@ GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
                 'outputFormat=application%2Fjson'
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -164,7 +156,7 @@ GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
 
     //Capa raster de municipios
     var municipios = new ol.layer.Tile({
-        title:'Municipios de la ruta',
+        title:'Tipo raster',
         visible: false,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
@@ -175,9 +167,30 @@ GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
                 LAYERS: 'sgg:limites_raster'
             }
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:limites_raster'
+            }
+        })*/
+
     });
     lista.push(municipios);
 
+    return new ol.layer.Group({
+        title:'Municipios de la ruta',
+        visible: true,
+        layers: lista
+    })
+
+}
+
+GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
+    var lista = [];
 
     //Zonas de acampar
     var zonasCammping = new ol.layer.Vector({
@@ -190,8 +203,7 @@ GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Azonas_acampar&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -215,8 +227,7 @@ GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Azonas_caminata&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -240,8 +251,7 @@ GeoLayers.prototype.ObtenerLayersZonasTuris = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Azonas_religiosas&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -276,8 +286,7 @@ GeoLayers.prototype.ObtenerLayersConcentracion = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Aconcentracion_de_restaurantes&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -302,8 +311,7 @@ GeoLayers.prototype.ObtenerLayersConcentracion = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Aconcentracion_de_miradores&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -327,8 +335,7 @@ GeoLayers.prototype.ObtenerLayersConcentracion = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Aconcentracion_de_hoteles&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -365,6 +372,17 @@ GeoLayers.prototype.ObtenerLayersZonasVerdes = function(){
                 LAYERS: 'sgg:centro_de_recreacion_el_refugio'
             }
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:centro_de_recreacion_el_refugio'
+            }
+        })*/
+
     });
     lista.push(elRefugio);
 
@@ -382,6 +400,17 @@ GeoLayers.prototype.ObtenerLayersZonasVerdes = function(){
                 LAYERS: 'sgg:compostela_georreferenciado'
             }
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:compostela_georreferenciado'
+            }
+        })*/
+
     });
     lista.push(compostela);
 
@@ -399,6 +428,17 @@ GeoLayers.prototype.ObtenerLayersZonasVerdes = function(){
                 LAYERS: 'sgg:entre_pinos_georreferenciado'
             }
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:entre_pinos_georreferenciado'
+            }
+        })*/
+
     });
     lista.push(entrePinos);
 
@@ -416,6 +456,17 @@ GeoLayers.prototype.ObtenerLayersZonasVerdes = function(){
                 LAYERS: 'sgg:peon_cayaguanca_georreferenciado'
             }
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:peon_cayaguanca_georreferenciado'
+            }
+        })*/
+
     });
     lista.push(cayaguanca);
 
@@ -433,6 +484,17 @@ GeoLayers.prototype.ObtenerLayersZonasVerdes = function(){
                 LAYERS: 'sgg:pital_georreferenciado'
             }
         })
+
+        /*source: new ol.source.TileWMS({
+            url: 'http://localhost:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:pital_georreferenciado'
+            }
+        })*/
+
     });
     lista.push(elPital);
 
@@ -460,8 +522,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSONRutas = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3ArutaFresca&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -486,8 +547,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSONRutas = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Aruta_hoteles&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -542,8 +602,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSONRestaurantes = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Arestaurantes&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -571,8 +630,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSONHoteles = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Ahoteles&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -600,8 +658,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSONMiradores = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Amiradores&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -629,8 +686,7 @@ GeoLayers.prototype.ObtenerLayersGeoJSONParques = function(){
                 
                 
                 /*'http://localhost:8080/geoserver/sgg/ows?' +
-                'service=WFS&' +
-                'version=1.0.0&request=GetFeature&typeName=sgg%3Amunicipios_ruta&' +
+                'service=WFS&version=1.0.0&request=GetFeature&typeName=sgg%3Aparques&' +
                 'outputFormat=application%2Fjson'*/
             },
             format: new ol.format.GeoJSON()
@@ -644,8 +700,6 @@ GeoLayers.prototype.ObtenerLayersGeoJSONParques = function(){
 
     return parques;
 }
-
-
 
 
 
