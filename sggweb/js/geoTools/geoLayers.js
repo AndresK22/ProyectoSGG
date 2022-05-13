@@ -36,6 +36,7 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
                 TRANSPARENT: true,
                 LAYERS: 'sgg:LIM_MUNICIPAL'
             }
+
         })
     });
     listaLayers.push(municipios);
@@ -515,6 +516,98 @@ GeoLayers.prototype.ObtenerLayersGeoJSONPuntos = function(){
     return new ol.layer.Group({
         title:'Puntos',
         visible: true,
+        layers: lista
+    })
+}
+
+
+//Capas raster
+GeoLayers.prototype.ObtenerLayersRaster = function(){
+    var lista = [];
+
+    //Capa el refugio
+    var elRefugio = new ol.layer.Tile({
+        title:'El refugio',
+        source: new ol.source.TileWMS({
+            url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:centro_de_recreacion_el_refugio'
+            }
+        })
+    });
+    lista.push(elRefugio);
+
+
+    //Capa Compostela
+    var compostela = new ol.layer.Tile({
+        title:'Compostela',
+        source: new ol.source.TileWMS({
+            url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:compostela_georreferenciado'
+            }
+        })
+    });
+    lista.push(compostela);
+
+
+    //Capa Entre pinos
+    var entrePinos = new ol.layer.Tile({
+        title:'Entre Pinos',
+        source: new ol.source.TileWMS({
+            url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:entre_pinos_georreferenciado'
+            }
+        })
+    });
+    lista.push(entrePinos);
+
+
+    //Capa cayaguanca
+    var cayaguanca = new ol.layer.Tile({
+        title:'Cayaguanca',
+        source: new ol.source.TileWMS({
+            url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:peon_cayaguanca_georreferenciado'
+            }
+        })
+    });
+    lista.push(cayaguanca);
+
+
+    //Capa El Pital
+    var elPital = new ol.layer.Tile({
+        title:'El Pital',
+        source: new ol.source.TileWMS({
+            url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:pital_georreferenciado'
+            }
+        })
+    });
+    lista.push(elPital);
+
+
+    return new ol.layer.Group({
+        title:'Raster',
+        visible: false,
         layers: lista
     })
 }
