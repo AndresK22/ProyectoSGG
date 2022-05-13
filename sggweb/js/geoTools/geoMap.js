@@ -1,7 +1,7 @@
 function GeoMap(){
     this.map = null;
-    this.mainBarCustom = null;
 }
+
 
 GeoMap.prototype.CrearMapa = function(target,layers,center,zoom,minZoom,maxZoom){
     var _target = target || 'map',
@@ -25,6 +25,7 @@ GeoMap.prototype.CrearMapa = function(target,layers,center,zoom,minZoom,maxZoom)
     });
 
 };
+
 
 GeoMap.prototype.CrearControlBarra = function(){
     var mainBar = new ol.control.Bar();

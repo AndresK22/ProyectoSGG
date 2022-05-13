@@ -40,7 +40,7 @@
             <prop v="gradient" k="rampType"/>
             <prop v="0.25;223,194,125,255:0.5;245,245,245,255:0.75;128,205,193,255" k="stops"/>
           </colorramp>
-          <item color="#a6611a" alpha="255" value="56.560001373291016" label="56.5600"/>
+          <item color="#a6611a" alpha="255" value="54.5400" label="54.5400"/>
           <item color="#dfc27d" alpha="255" value="80.08249950408936" label="80.0825"/>
           <item color="#f5f5f5" alpha="255" value="103.6049976348877" label="103.6050"/>
           <item color="#80cdc1" alpha="255" value="127.12749576568604" label="127.1275"/>

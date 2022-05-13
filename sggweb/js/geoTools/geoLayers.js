@@ -1,5 +1,5 @@
 function GeoLayers(){
-    this.vectorGeoJson = null;
+    
 }
 
 //Capas base para tener de fondo 
@@ -109,7 +109,6 @@ GeoLayers.prototype.ObtenerLayersBase = function(){
 
 
 //Capas geojson para obtener datos
-
 //Capas de poligonos
 GeoLayers.prototype.ObtenerLayersGeoJSONPoligonos = function(){
     var lista = [];
@@ -525,9 +524,27 @@ GeoLayers.prototype.ObtenerLayersGeoJSONPuntos = function(){
 GeoLayers.prototype.ObtenerLayersRaster = function(){
     var lista = [];
 
+    //Capa de municipios
+    var municipios = new ol.layer.Tile({
+        title:'Municipios de la ruta',
+        visible: false,
+        source: new ol.source.TileWMS({
+            url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
+            params: {
+                VERSION: '1.1.1',
+                FORMAT: 'image/png',
+                TRANSPARENT: true,
+                LAYERS: 'sgg:limites_raster'
+            }
+        })
+    });
+    lista.push(municipios);
+
+
     //Capa el refugio
     var elRefugio = new ol.layer.Tile({
         title:'El refugio',
+        visible: false,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
             params: {
@@ -544,6 +561,7 @@ GeoLayers.prototype.ObtenerLayersRaster = function(){
     //Capa Compostela
     var compostela = new ol.layer.Tile({
         title:'Compostela',
+        visible: false,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
             params: {
@@ -560,6 +578,7 @@ GeoLayers.prototype.ObtenerLayersRaster = function(){
     //Capa Entre pinos
     var entrePinos = new ol.layer.Tile({
         title:'Entre Pinos',
+        visible: false,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
             params: {
@@ -576,6 +595,7 @@ GeoLayers.prototype.ObtenerLayersRaster = function(){
     //Capa cayaguanca
     var cayaguanca = new ol.layer.Tile({
         title:'Cayaguanca',
+        visible: false,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
             params: {
@@ -592,6 +612,7 @@ GeoLayers.prototype.ObtenerLayersRaster = function(){
     //Capa El Pital
     var elPital = new ol.layer.Tile({
         title:'El Pital',
+        visible: false,
         source: new ol.source.TileWMS({
             url: 'http://137.184.35.12:8080/geoserver/sgg/wms?',
             params: {
@@ -607,7 +628,6 @@ GeoLayers.prototype.ObtenerLayersRaster = function(){
 
     return new ol.layer.Group({
         title:'Raster',
-        visible: false,
         layers: lista
     })
 }
