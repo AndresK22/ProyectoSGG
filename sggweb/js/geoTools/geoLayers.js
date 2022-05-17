@@ -108,7 +108,7 @@ GeoLayers.prototype.ObtenerLayersMunicRuta = function(){
 
     //Municipios_ruta
     var municipiosRuta = new ol.layer.Vector({
-        title: 'Tipo poligono',
+        title: 'Municipios de la ruta',
         source: new ol.source.Vector({
             url: function(extent){
                 return 'http://137.184.35.12:8080/geoserver/sgg/ows?'+
@@ -155,7 +155,7 @@ GeoLayers.prototype.ObtenerLayersMunicRuta = function(){
 
 
     //Capa raster de municipios
-    var municipios = new ol.layer.Tile({
+    /*var municipios = new ol.layer.Tile({
         title:'Tipo raster',
         visible: false,
         source: new ol.source.TileWMS({
@@ -168,7 +168,7 @@ GeoLayers.prototype.ObtenerLayersMunicRuta = function(){
             }
         })
 
-        /*source: new ol.source.TileWMS({
+        source: new ol.source.TileWMS({
             url: 'http://localhost:8080/geoserver/sgg/wms?',
             params: {
                 VERSION: '1.1.1',
@@ -176,16 +176,19 @@ GeoLayers.prototype.ObtenerLayersMunicRuta = function(){
                 TRANSPARENT: true,
                 LAYERS: 'sgg:limites_raster'
             }
-        })*/
+        })
 
     });
-    lista.push(municipios);
+    lista.push(municipios);*/
 
-    return new ol.layer.Group({
+
+    /*return new ol.layer.Group({
         title:'Municipios de la ruta',
         visible: true,
         layers: lista
-    })
+    })*/
+
+    return municipiosRuta;
 
 }
 
